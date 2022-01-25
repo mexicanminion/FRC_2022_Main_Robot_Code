@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.Accelerometer;
 import frc.robot.subsystems.DriveBase;
+import frc.robot.subsystems.Vision;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -22,6 +23,7 @@ public class Robot extends TimedRobot {
   public static OI oi;
   public static Accelerometer imu;
   public static DriveBase driveBase;
+  public static Vision vision;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -33,6 +35,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     oi = new OI();
     imu = new Accelerometer();
+    vision = new Vision();
     driveBase = new DriveBase();
   }
 

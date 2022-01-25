@@ -44,6 +44,10 @@ public final class Constants {
     public static final double  AutoRotateConstant	  = 0.1;
 
 
+    //Vision
+    public static final int     RedBallSignature      = 1;
+    public static final int     BlueBallSignature     = 2;
+
 
 
     //Falcon Specific
