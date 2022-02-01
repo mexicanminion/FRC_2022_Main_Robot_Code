@@ -24,7 +24,21 @@ public final class Constants {
     public static final int    CANPigeon             = 24;
 
 
-    public static final int MainController = 0;
+    //Controller slots
+	public static final int   MainController               = 0;
+	public static final int   ButtonController             = 1;
+
+	//XBox raw button mappings
+	public static final int   XBoxButtonX                 = 3;
+	public static final int   XBoxButtonY                 = 4;
+	public static final int   XBoxButtonA                 = 1;
+	public static final int   XBoxButtonB                 = 2;
+	public static final int   XBoxButtonStickLeft         = 9;
+	public static final int   XBoxButtonStickRight        = 10;
+	public static final int   XBoxButtonTriggerLeft       = 5;
+	public static final int   XBoxButtonTriggerRight      = 6;
+	public static final int   XBoxButtonHome              = 7; //Labeled "BACK"
+	public static final int   XBoxButtonMenu              = 8; //Labeled "START"
 
     //DriveBase varibles
     public static final int     WheelCountsPerRev     = 2048;
@@ -47,6 +61,8 @@ public final class Constants {
     //Vision
     public static final int     RedBallSignature      = 1;
     public static final int     BlueBallSignature     = 2;
+    public static final double  HomingModifier        = -0.20; //For limiting the speed of homing in AlignWithTarget, was -25
+
 
 
 

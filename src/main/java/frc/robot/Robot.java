@@ -34,9 +34,9 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     oi = new OI();
-    imu = new Accelerometer();
+    //imu = new Accelerometer();
     vision = new Vision();
-    driveBase = new DriveBase();
+    //driveBase = new DriveBase();
   }
 
   /**
@@ -86,7 +86,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    vision.getBiggestBlockCARGO(Constants.RedBallSignature);
+  }
 
   @Override
   public void testInit() {
@@ -96,5 +98,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during test mode. */
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+
+    vision.getBiggestBlockCARGO(Constants.RedBallSignature);
+
+  }
 }
