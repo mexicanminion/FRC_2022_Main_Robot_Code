@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.security.PublicKey;
+
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 /**
@@ -17,11 +19,14 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 public final class Constants {
 
     //motor CANS
-    public static final int    CANLeftFrontMaster    = 7;
-	public static final int    CANRightFrontMaster   = 9;
-	public static final int    CANLeftFrontFollower  = 8;
-	public static final int    CANRightFrontFollower = 10;
-    public static final int    CANPigeon             = 24;
+    public static final int    CANRightConveyorMASTER    = 4;
+    public static final int    CANRightConveyorFOLLOWER  = 5;
+    public static final int    CANIntakeMotor            = 6;
+    public static final int    CANLeftFrontMaster        = 7;
+	public static final int    CANRightFrontMaster       = 9;
+	public static final int    CANLeftFrontFollower      = 8;
+	public static final int    CANRightFrontFollower     = 10;
+    public static final int    CANPigeon                 = 24;
 
 
     //Controller slots
@@ -62,8 +67,6 @@ public final class Constants {
     public static final int     RedBallSignature      = 1;
     public static final int     BlueBallSignature     = 2;
     public static final double  HomingModifier        = -0.20; //For limiting the speed of homing in AlignWithTarget, was -25
-
-
 
 
     //Falcon Specific
