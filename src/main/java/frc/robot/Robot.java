@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.Accelerometer;
 import frc.robot.subsystems.DriveBase;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Vision;
 
 /**
@@ -24,6 +25,7 @@ public class Robot extends TimedRobot {
   public static Accelerometer imu;
   public static DriveBase driveBase;
   public static Vision vision;
+  public static Intake intake;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -35,8 +37,9 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     oi = new OI();
     //imu = new Accelerometer();
-    vision = new Vision();
-    //driveBase = new DriveBase();
+    //vision = new Vision();
+    intake = new Intake();
+    driveBase = new DriveBase();
   }
 
   /**
@@ -87,7 +90,9 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    vision.getBiggestBlockCARGO(Constants.RedBallSignature);
+    //vision.getBiggestBlockCARGO(Constants.RedBallSignature);
+    //driveBase.updateDriveBase();
+    intake.teleIntake();
   }
 
   @Override

@@ -204,7 +204,7 @@ public class DriveBase extends SubsystemBase {
     if(speedShift == true){
       drive(left/2, right/2);
     }else{
-      drive(left/2.5, right/2.5);
+      drive(left/.5, right/.5);
     }
 
   }
