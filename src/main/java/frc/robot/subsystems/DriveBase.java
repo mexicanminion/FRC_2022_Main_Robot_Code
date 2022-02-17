@@ -131,8 +131,12 @@ public class DriveBase extends SubsystemBase {
     double rightTick = 0;
     boolean done = false;
 
-    pos = pos/Constants.WheelInchPerTicks;
-    SmartDashboard.putNumber("wanted pos", pos);
+    
+    pos = (pos/Constants.WheelInchPerTicks);
+    double wantedPos = pos + Constants.totalDistance;
+    
+    SmartDashboard.putNumber("wanted pos total", wantedPos);
+    SmartDashboard.putNumber("wanted pos current", pos);
 
     double avg = 0;
 
@@ -149,15 +153,26 @@ public class DriveBase extends SubsystemBase {
 
       avg = (leftTick + rightTick) / 2;
 
-      if(Math.abs(pos-avg) <= 50){
+      SmartDashboard.putNumber("Average of both encoders", avg);
+
+      if(Math.abs(wantedPos-avg) <= 30){
         //System.out.println("Case1");
         done = true;
-      }else if(Math.abs(avg)>Math.abs(pos)){
+        Constants.totalDistance += pos;
+      }else if((avg > wantedPos) && speed > 0){
         // System.out.println(avg);
         // System.out.println(pos);
         // System.out.println("Case2");
 
         done = true;
+        Constants.totalDistance += pos;
+      }else if((avg < wantedPos) && speed < 0){
+        // System.out.println(avg);
+        // System.out.println(pos);
+        // System.out.println("Case2");
+
+        done = true;
+        Constants.totalDistance += pos;
       }
 
       drive(speed, speed);
@@ -165,7 +180,7 @@ public class DriveBase extends SubsystemBase {
     } 
 
     fullStop();
-    zeroEncoders();
+    //zeroEncoders();
 
     /*double driveTicks = driveInches * Constants.WheelInchPerTicks;
     rightFront.set(TalonFXControlMode.Position, driveTicks);
@@ -204,7 +219,7 @@ public class DriveBase extends SubsystemBase {
     if(speedShift == true){
       drive(left/2, right/2);
     }else{
-      drive(left/.5, right/.5);
+      drive(left/1.50, right/1.50);
     }
 
   }

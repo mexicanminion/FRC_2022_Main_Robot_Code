@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Shooter extends SubsystemBase {
@@ -27,6 +28,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void getPosOnDash(){
-    
+    SmartDashboard.putNumber("Angle of Servo", shooter.getAngle());
+    SmartDashboard.putNumber("Postition of Servo", shooter.getPosition());
   }
 }
