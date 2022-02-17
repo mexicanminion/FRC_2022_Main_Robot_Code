@@ -32,14 +32,14 @@ public class Intake extends SubsystemBase {
   }
 
   public void ballIn(){
-    intakeMotor.set(ControlMode.PercentOutput, .5);
+    intakeMotor.set(ControlMode.PercentOutput, .6);
   }
   
   /**
    * out takes balls
    */
   public void ballOut(){
-    intakeMotor.set(ControlMode.PercentOutput, -.5);
+    intakeMotor.set(ControlMode.PercentOutput, -.6);
   }
   
   /**

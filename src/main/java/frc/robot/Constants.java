@@ -49,7 +49,7 @@ public final class Constants {
     public static final int     WheelCountsPerRev     = 2048;
 	public static final double  WheelDiameter         = 6;//6 inch diameter
 	public static final double  WheelCircumference    = Math.PI*WheelDiameter;
-    public static final double  GearRatio             = 1/5.95;
+    public static final double  GearRatio             = 1/10.71;//5.95;
     public static final double  WheelInchPerTicks     = WheelCircumference / WheelCountsPerRev * GearRatio; //double check gear ratio
     public static final double  DrivePIDkP            = 0.1; //porpotinal differnce
 	public static final double  DrivePIDkI            = 0.001; //intergral differnece over time
@@ -57,10 +57,11 @@ public final class Constants {
     public static final double  MaxAccel              = 0.025; // 
 	public static final double  MaxDecel              = 0.02; // 
     public static final int     MaxRPM                = 4000;
-    public static final double  AutoRotateError       = 0.5;
-    public static final double  AutoRotatekP		  = 0.75;
+    public static final double  AutoRotateError       = 0.3;
+    public static final double  AutoRotatekP		  = 0.45;//75;
     public static final double  AutoSlowDown		  = 0.25;
     public static final double  AutoRotateConstant	  = 0.1;
+    public static       double  totalDistance         = 0;
 
 
     //Vision

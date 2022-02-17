@@ -27,13 +27,15 @@ public class Vision extends SubsystemBase {
   public static int width;
   public static int hight;
   private static Block mainBlock;
+  private static double buffer;
 
   public Vision() {
-    cam1.startAutomaticCapture(0);
+    //cam1.startAutomaticCapture(0);
     pixy = Pixy2.createInstance(LinkType.SPI);
     pixy.init();
 	hight = pixy.getFrameHeight();
 	width = pixy.getFrameWidth();
+	buffer = width/2;
 
     SmartDashboard.putString("PixyCam", "initated");
   }
@@ -53,36 +55,37 @@ public class Vision extends SubsystemBase {
   }
 
   public static void getBiggestBlockCARGO(int CargoSignature) {
-		 int blockCount = pixy.getCCC().getBlocks(false, Pixy2CCC.CCC_SIG1, 4);
-		/*if (blockCount <= 0) {
-			System.err.println("No block count");
-		}*/
-		ArrayList<Block> blocks = pixy.getCCC().getBlockCache();
-		Block largestBlock = null;
-		/*if (blocks == null) {
-			System.err.println("No Blocks");
-		}*/
-		for (Block block : blocks) {
-			if (block.getSignature() == CargoSignature) {
-				if (largestBlock == null) {
-					largestBlock = block;
-				} else if (block.getWidth() > largestBlock.getWidth()) {
-					largestBlock = block;
-				}
+	//int blockCount = pixy.getCCC().getBlocks(false, Pixy2CCC.CCC_SIG1, 4);
+	/*if (blockCount <= 0) {
+		System.err.println("No block count");
+	}*/
+	ArrayList<Block> blocks = pixy.getCCC().getBlockCache();
+	Block largestBlock = null;
+	/*if (blocks == null) {
+		System.err.println("No Blocks");
+	}*/
+	for (Block block : blocks) {
+		if (block.getSignature() == CargoSignature) {
+			if (largestBlock == null) {
+				largestBlock = block;
+			} else if (block.getWidth() > largestBlock.getWidth()) {
+				largestBlock = block;
 			}
 		}
+	}
 
-		if(largestBlock != null){
-			x = largestBlock.getX();
-			y = largestBlock.getY();
-			mainBlock = largestBlock;
-			SmartDashboard.putString("Cargo visible?", "Yes");
-			SmartDashboard.putNumber("Ball X", largestBlock.getX());
-			SmartDashboard.putNumber("Ball Y", largestBlock.getY());
-			SmartDashboard.putBoolean("Aligned?", isAligned(largestBlock));
-		}else{
-			SmartDashboard.putString("Cargo visible?", "No");
-		}
+	if(largestBlock != null){
+		x = largestBlock.getX();
+		y = largestBlock.getY();
+		mainBlock = largestBlock;
+		SmartDashboard.putString("Cargo visible?", "Yes");
+		SmartDashboard.putNumber("Ball X", largestBlock.getX());
+		SmartDashboard.putNumber("Ball Y", largestBlock.getY());
+		SmartDashboard.putBoolean("Aligned?", isAligned(largestBlock));
+	}else{
+		SmartDashboard.putString("Cargo visible?", "No");
+	}
+		
 		
 	}
 
@@ -120,7 +123,7 @@ public class Vision extends SubsystemBase {
 
 		  SmartDashboard.putBoolean("Shooter loop", true);
 		  SmartDashboard.putNumber("vision x", x);
-		  motorPower = x * Constants.HomingModifier/27;
+		  motorPower = (x - buffer) * Constants.HomingModifier/27;
 		  if(Math.abs(motorPower) < 0.1){
 			if(motorPower < 0){
 			  powerFudge = -0.08;
@@ -130,7 +133,7 @@ public class Vision extends SubsystemBase {
 			
 		  }
 		  SmartDashboard.putNumber("motor power (vision)", motorPower);
-		  Robot.driveBase.drive(-motorPower-powerFudge, motorPower+powerFudge);
+		  //Robot.driveBase.drive(-motorPower-powerFudge, motorPower+powerFudge);
 	
 		  if(isAligned(mainBlock)){//(Robot.vision.x > Constants.VisionErrorAllowed){ 
 			isDone = false;
@@ -140,10 +143,14 @@ public class Vision extends SubsystemBase {
 		  }
 	
 		  if(Robot.oi.getControllerButtonState(Constants.XBoxButtonHome)){
-			Robot.driveBase.drive(0, 0);
+			//Robot.driveBase.drive(0, 0);
 			isDone = true;
 		  }
 	
 		}
+	}
+
+	private int mathTo0(int x){
+		return x - (int)buffer;
 	}
 }

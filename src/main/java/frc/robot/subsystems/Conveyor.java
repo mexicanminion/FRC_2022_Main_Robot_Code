@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
@@ -16,6 +17,9 @@ public class Conveyor extends SubsystemBase {
 
   TalonFX right;
   TalonFX rightFollower;
+
+  Ultrasonic bottom;
+  Ultrasonic top; 
 
   public void conveyorInit(){
 

@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.Accelerometer;
@@ -36,7 +37,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     oi = new OI();
-    //imu = new Accelerometer();
+    imu = new Accelerometer();
     //vision = new Vision();
     intake = new Intake();
     driveBase = new DriveBase();
@@ -68,13 +69,25 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link OI} class. */
   @Override
   public void autonomousInit() {
+    SmartDashboard.putBoolean("auto done?", false);
+    driveBase.zeroEncoders();
+    driveBase.parkingBrake(true);
+    imu.resetPigeonYaw();
 
-    
+    //driveBase.runToPos(30, .2);
+    //driveBase.runToPos(-40, -.2);
+    //driveBase.runToPos(10, .2);
+    driveBase.gyroRotate(-90);
+    driveBase.gyroRotate(90);
+    //driveBase.gyroRotate(0);
+    SmartDashboard.putBoolean("auto done?", true);
   }
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    driveBase.fullStop();
+  }
 
   @Override
   public void teleopInit() {
@@ -85,6 +98,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    driveBase.parkingBrake(true);
   }
 
   /** This function is called periodically during operator control. */
@@ -93,6 +108,7 @@ public class Robot extends TimedRobot {
     //vision.getBiggestBlockCARGO(Constants.RedBallSignature);
     //driveBase.updateDriveBase();
     intake.teleIntake();
+    //vision.alignWithTarget(Constants.RedBallSignature);
   }
 
   @Override
@@ -107,5 +123,49 @@ public class Robot extends TimedRobot {
 
     vision.getBiggestBlockCARGO(Constants.RedBallSignature);
 
+  }
+
+  private void threeBallPath(){
+    //servoDrop()
+    driveBase.runToPos(10, .5);
+    driveBase.gyroRotate(21);
+    //turn on intake
+    intake.ballIn();
+    driveBase.runToPos(82, .5);
+    intake.ballStop();
+    //turn off intake and sort ball to first slot of conveyor
+    driveBase.gyroRotate(-137);
+    //turn on intake
+    intake.ballIn();
+    driveBase.runToPos(97, .5);
+    //turn off intake and sort ball to first slot of conveyor
+    intake.ballStop();
+    driveBase.gyroRotate(79);
+    driveBase.runToPos(-100, - .5);
+    //servoDrop() both balls
+    driveBase.runToPos(90, .5);
+
+  }
+
+  private void twoBallBottom(){
+    intake.ballIn();
+    driveBase.runToPos(48, .5);
+    intake.ballStop();
+    driveBase.runToPos(-78, -.5);
+    driveBase.gyroRotate(-21);
+    driveBase.runToPos(-10, -.5);
+    //drop balls
+    driveBase.gyroRotate(42);
+    driveBase.runToPos(78, .5);
+  }
+
+  private void twoBallTop(){
+    intake.ballIn();
+    driveBase.runToPos(50, .5);
+    intake.ballStop();
+    driveBase.gyroRotate(25);
+    driveBase.runToPos(-28, -.5);
+    //drop balls
+    driveBase.runToPos(88, .5);
   }
 }
