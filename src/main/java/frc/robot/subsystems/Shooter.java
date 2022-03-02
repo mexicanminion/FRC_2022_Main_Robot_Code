@@ -7,6 +7,8 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.Robot;
 
 public class Shooter extends SubsystemBase {
   /** Creates a new Shooter. */
@@ -14,11 +16,13 @@ public class Shooter extends SubsystemBase {
   private Servo shooter;
 
   private void shooterInit(){
-    shooter = new Servo(1);
+    shooter = new Servo(0);
+    shooter.setSpeed(1);
   }
 
   public Shooter() {
     shooterInit();
+    shooter.setAngle(72);
     //shooter.set
   }
 
@@ -27,8 +31,23 @@ public class Shooter extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
+  public void goToPos(int pos){
+    if(pos == 1){
+      shooter.setAngle(0);
+    }else if(pos == 2){
+      shooter.setAngle(72);
+    }
+  }
+
+  
+
   public void getPosOnDash(){
-    SmartDashboard.putNumber("Angle of Servo", shooter.getAngle());
-    SmartDashboard.putNumber("Postition of Servo", shooter.getPosition());
+    if(Robot.oi.getControllerButtonState(Constants.XBoxButtonA)){
+      shooter.setAngle(0);
+    }else{
+      shooter.setAngle(72);
+    }
+    //SmartDashboard.putNumber("Angle of Servo", shooter.getAngle());
+    //SmartDashboard.putNumber("Postition of Servo", shooter.getPosition());
   }
 }

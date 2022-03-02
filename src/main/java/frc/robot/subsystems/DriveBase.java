@@ -131,6 +131,8 @@ public class DriveBase extends SubsystemBase {
     double rightTick = 0;
     boolean done = false;
 
+    double currSpeed = speed;
+
     
     pos = (pos/Constants.WheelInchPerTicks);
     double wantedPos = pos + Constants.totalDistance;
@@ -139,6 +141,7 @@ public class DriveBase extends SubsystemBase {
     SmartDashboard.putNumber("wanted pos current", pos);
 
     double avg = 0;
+    double theThird = (wantedPos/4) * 3;
 
     //System.out.println("Ran once");
 
@@ -152,30 +155,27 @@ public class DriveBase extends SubsystemBase {
       SmartDashboard.putNumber("left tick", leftTick);
 
       avg = (leftTick + rightTick) / 2;
+      
 
       SmartDashboard.putNumber("Average of both encoders", avg);
+
+      if(((avg >= theThird) && speed > 0) || ((avg <= theThird) && speed < 0)){
+        currSpeed = currSpeed / 3;
+      }
 
       if(Math.abs(wantedPos-avg) <= 30){
         //System.out.println("Case1");
         done = true;
         Constants.totalDistance += pos;
       }else if((avg > wantedPos) && speed > 0){
-        // System.out.println(avg);
-        // System.out.println(pos);
-        // System.out.println("Case2");
-
         done = true;
         Constants.totalDistance += pos;
       }else if((avg < wantedPos) && speed < 0){
-        // System.out.println(avg);
-        // System.out.println(pos);
-        // System.out.println("Case2");
-
         done = true;
         Constants.totalDistance += pos;
       }
 
-      drive(speed, speed);
+      drive(currSpeed, currSpeed);
 
     } 
 
@@ -217,9 +217,9 @@ public class DriveBase extends SubsystemBase {
   public void driveWithJoySticks(double left, double right){
 
     if(speedShift == true){
-      drive(left/2, right/2);
+      drive(left/3, right/3);
     }else{
-      drive(left/1.50, right/1.50);
+      drive(left/2, right/2);
     }
 
   }

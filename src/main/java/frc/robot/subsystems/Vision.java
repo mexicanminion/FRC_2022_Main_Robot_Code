@@ -136,9 +136,9 @@ public class Vision extends SubsystemBase {
 		  //Robot.driveBase.drive(-motorPower-powerFudge, motorPower+powerFudge);
 	
 		  if(isAligned(mainBlock)){//(Robot.vision.x > Constants.VisionErrorAllowed){ 
-			isDone = false;
-		  }else{
 			isDone = true;
+		  }else{
+			isDone = false;
 			//Robot.hopper.wackerSpinOn();
 		  }
 	

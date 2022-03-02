@@ -19,8 +19,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 public final class Constants {
 
     //motor CANS
-    public static final int    CANRightConveyorMASTER    = 4;
-    public static final int    CANRightConveyorFOLLOWER  = 5;
+    public static final int    CANRightConveyorMASTER    = 20;
+    public static final int    CANRightConveyorFOLLOWER  = 21;
     public static final int    CANIntakeMotor            = 6;
     public static final int    CANLeftFrontMaster        = 7;
 	public static final int    CANRightFrontMaster       = 9;
@@ -54,8 +54,8 @@ public final class Constants {
     public static final double  DrivePIDkP            = 0.1; //porpotinal differnce
 	public static final double  DrivePIDkI            = 0.001; //intergral differnece over time
     public static final int     kTimeoutMs            = 30;
-    public static final double  MaxAccel              = 0.025; // 
-	public static final double  MaxDecel              = 0.02; // 
+    public static final double  MaxAccel              = 0.01;//25; // 
+	public static final double  MaxDecel              = 0.015;//02; // 
     public static final int     MaxRPM                = 4000;
     public static final double  AutoRotateError       = 0.3;
     public static final double  AutoRotatekP		  = 0.45;//75;

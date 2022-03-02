@@ -60,9 +60,11 @@ public class Intake extends SubsystemBase {
     if(Robot.oi.getControllerButtonStateOp(Constants.XBoxButtonA) && Robot.oi.getControllerButtonStateOp(Constants.XBoxButtonTriggerRight)){
       ballOut();
     }else if(Robot.oi.getControllerButtonStateOp(Constants.XBoxButtonA)){
+      Robot.conveyor.cycleCargo();
       ballIn();
     }else{
       ballStop();
+      Robot.conveyor.ballStop();
     }
 
   }

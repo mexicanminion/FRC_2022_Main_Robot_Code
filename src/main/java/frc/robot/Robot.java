@@ -9,8 +9,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.Accelerometer;
+import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
 
 /**
@@ -27,6 +29,8 @@ public class Robot extends TimedRobot {
   public static DriveBase driveBase;
   public static Vision vision;
   public static Intake intake;
+  public static Shooter shooter;
+  public static Conveyor conveyor;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -38,9 +42,11 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     oi = new OI();
     imu = new Accelerometer();
-    //vision = new Vision();
+    vision = new Vision();
     intake = new Intake();
     driveBase = new DriveBase();
+    shooter = new Shooter();
+    conveyor = new Conveyor();
   }
 
   /**
@@ -74,11 +80,11 @@ public class Robot extends TimedRobot {
     driveBase.parkingBrake(true);
     imu.resetPigeonYaw();
 
-    //driveBase.runToPos(30, .2);
-    //driveBase.runToPos(-40, -.2);
+    driveBase.runToPos(30, .2);
+    driveBase.runToPos(-40, -.2);
     //driveBase.runToPos(10, .2);
-    driveBase.gyroRotate(-90);
-    driveBase.gyroRotate(90);
+    //driveBase.gyroRotate(-90);
+    //driveBase.gyroRotate(90);
     //driveBase.gyroRotate(0);
     SmartDashboard.putBoolean("auto done?", true);
   }
@@ -106,9 +112,12 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     //vision.getBiggestBlockCARGO(Constants.RedBallSignature);
-    //driveBase.updateDriveBase();
+    driveBase.updateDriveBase();
     intake.teleIntake();
     //vision.alignWithTarget(Constants.RedBallSignature);
+    shooter.getPosOnDash();
+    //conveyor.updateUltrasonics();
+    //conveyor.teleIntake();
   }
 
   @Override
@@ -167,5 +176,16 @@ public class Robot extends TimedRobot {
     driveBase.runToPos(-28, -.5);
     //drop balls
     driveBase.runToPos(88, .5);
+  }
+
+  private void autoTest(){
+    intake.ballIn();
+    driveBase.runToPos(12*5, .3);
+    intake.ballStop();
+    driveBase.runToPos(-12*5, -.3);
+    intake.ballIn();
+    driveBase.runToPos(12*10, .3);
+    intake.ballStop();
+    driveBase.runToPos(-12*10, -.3);
   }
 }
