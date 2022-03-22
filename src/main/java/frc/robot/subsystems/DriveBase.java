@@ -159,9 +159,9 @@ public class DriveBase extends SubsystemBase {
 
       SmartDashboard.putNumber("Average of both encoders", avg);
 
-      if(((avg >= theThird) && speed > 0) || ((avg <= theThird) && speed < 0)){
+      /*if(((avg >= theThird) && speed > 0) || ((avg <= theThird) && speed < 0)){
         currSpeed = currSpeed / 3;
-      }
+      }*/
 
       if(Math.abs(wantedPos-avg) <= 30){
         //System.out.println("Case1");
@@ -216,11 +216,16 @@ public class DriveBase extends SubsystemBase {
 
   public void driveWithJoySticks(double left, double right){
 
-    if(speedShift == true){
+    if(Robot.oi.getControllerButtonState(Constants.XBoxButtonTriggerRight)){
+      drive((right/2) * -1, (left/2)* -1);
+    }else{
+      drive(left/1.33, right/1.33);
+    }
+    /*if(speedShift == true){
       drive(left/3, right/3);
     }else{
-      drive(left/2, right/2);
-    }
+      drive((right/2) * -1, (left/2)* -1);
+    }*/
 
   }
 

@@ -24,14 +24,15 @@ public class Conveyor extends SubsystemBase {
   AnalogInput bottomInput;
   AnalogInput topInput;
 
+  Ultrasonic ultrasonic;
+
   AnalogPotentiometer bottom;
   AnalogPotentiometer top; 
 
   double bottomValue;
   double topValue;
 
-  conveyorTypes cType = conveyorTypes.loadingCargo;
-  
+  conveyorTypes cType; 
 
   public void conveyorInit(){
 
@@ -41,14 +42,20 @@ public class Conveyor extends SubsystemBase {
     rightFollower.follow(right);
     rightFollower.setInverted(true);
 
+    ultrasonic = new Ultrasonic(0, 1);
+    ultrasonic.setAutomaticMode(true);
+
+
     bottomInput = new AnalogInput(0);
-    bottomInput.setAverageBits(2);
+    bottomInput.setAverageBits(1);
 
     topInput = new AnalogInput(1);
-    topInput.setAverageBits(2);
+    topInput.setAverageBits(1);
 
     bottom = new AnalogPotentiometer(bottomInput, 180, 30);
     top = new AnalogPotentiometer(topInput, 180, 30);
+
+    cType = conveyorTypes.loadingCargo;
 
   }
 
@@ -64,6 +71,27 @@ public class Conveyor extends SubsystemBase {
   public void updateUltrasonics(){
     bottomValue = bottom.get();
     topValue = top.get();
+    if(topValue <= 130){
+      SmartDashboard.putBoolean("Ball in Shooter? ", true);
+    }else{
+      SmartDashboard.putBoolean("Ball in Shooter? ", false);
+    }
+
+    if(bottomValue <= 130){
+      SmartDashboard.putBoolean("Ball in Conveyor? ", true);
+    }else{
+      SmartDashboard.putBoolean("Ball in Conveyor? ", false);
+    }
+
+    /*if(ultrasonic.getRangeMM() <= 500){
+      SmartDashboard.putBoolean("Ball in Conveyor? ", true);
+    }else{
+      SmartDashboard.putBoolean("Ball in Conveyor? ", false);
+    }*/
+
+    SmartDashboard.putNumber("Ultarsonic test", ultrasonic.getRangeMM());
+
+
     SmartDashboard.putNumber("Ultarsonic bottom", bottomValue);
     SmartDashboard.putNumber("Ultarsonic top", topValue);
   }
@@ -90,14 +118,15 @@ public class Conveyor extends SubsystemBase {
     updateUltrasonics();
     switch(cType){
       case loadingCargo:
-        if(topValue <= 130  && bottomValue <= 130){ //if shooter and conveyor have cargo 
+        SmartDashboard.putString("Conveyor Status: ", "intaking");
+        if(topValue <= 130  && bottomValue <= 170){ //if shooter and conveyor have cargo 
           ballStop();
         }else{
           ballIn();
         }
         break;
       case shootingCargo:
-        if(topValue <= 130  && bottomValue <= 130){
+        if(topValue <= 130  && bottomValue <= 170){
           SmartDashboard.putString("Conveyor Status: ", "shooting");
           Robot.shooter.goToPos(1);
           for(int i = 0; i <= 1000; i++){
@@ -118,6 +147,7 @@ public class Conveyor extends SubsystemBase {
             }
           }
           Robot.shooter.goToPos(0);
+          SmartDashboard.putString("Conveyor Status: ", "Finished!");
         }else{
           SmartDashboard.putString("Conveyor Status: ", "Cant shoot, balls are not in both places");
         }
@@ -141,6 +171,15 @@ public class Conveyor extends SubsystemBase {
       ballStop();
     }
 
+  }
+
+  public void setConyorType(int type){
+    if(type == 1){
+      cType = conveyorTypes.loadingCargo;
+    }
+    if(type == 2){
+      cType = conveyorTypes.shootingCargo;
+    }
   }
 
   enum conveyorTypes{

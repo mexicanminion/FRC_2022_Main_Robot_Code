@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
@@ -33,6 +34,7 @@ public class Intake extends SubsystemBase {
 
   public void ballIn(){
     intakeMotor.set(ControlMode.PercentOutput, .6);
+    SmartDashboard.putString("Intake is ", "Running in");
   }
   
   /**
@@ -40,6 +42,7 @@ public class Intake extends SubsystemBase {
    */
   public void ballOut(){
     intakeMotor.set(ControlMode.PercentOutput, -.6);
+    SmartDashboard.putString("Intake is ", "Running out");
   }
   
   /**
@@ -47,6 +50,7 @@ public class Intake extends SubsystemBase {
    */
   public void ballStop(){
     intakeMotor.set(ControlMode.PercentOutput, 0);
+    SmartDashboard.putString("Intake is ", "stopped");
   }
 
   /**

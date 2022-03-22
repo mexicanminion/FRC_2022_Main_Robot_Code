@@ -67,7 +67,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    driveBase.parkingBrake(false);
+  }
 
   @Override
   public void disabledPeriodic() {}
@@ -79,9 +81,16 @@ public class Robot extends TimedRobot {
     driveBase.zeroEncoders();
     driveBase.parkingBrake(true);
     imu.resetPigeonYaw();
-
-    driveBase.runToPos(30, .2);
-    driveBase.runToPos(-40, -.2);
+    shooter.goToPos(0);
+      for(int i = 0; i <= 3000; i++){
+        try{
+          Thread.sleep(1);
+        }catch(Exception ex){
+        }
+      }
+    shooter.goToPos(1);
+    driveBase.runToPos(90, .2);
+    //driveBase.runToPos(-40, -.2);
     //driveBase.runToPos(10, .2);
     //driveBase.gyroRotate(-90);
     //driveBase.gyroRotate(90);
@@ -111,13 +120,10 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    //vision.getBiggestBlockCARGO(Constants.RedBallSignature);
-    driveBase.updateDriveBase();
-    intake.teleIntake();
-    //vision.alignWithTarget(Constants.RedBallSignature);
-    shooter.getPosOnDash();
-    //conveyor.updateUltrasonics();
-    //conveyor.teleIntake();
+    //driveBase.updateDriveBase();//DRIVER joysticks
+    intake.teleIntake();//OP a to intake
+    shooter.depositCargo();//OP b to shoot
+    conveyor.updateUltrasonics();
   }
 
   @Override

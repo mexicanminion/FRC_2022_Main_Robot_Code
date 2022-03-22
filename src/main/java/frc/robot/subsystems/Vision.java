@@ -30,7 +30,7 @@ public class Vision extends SubsystemBase {
   private static double buffer;
 
   public Vision() {
-    //cam1.startAutomaticCapture(0);
+    cam1.startAutomaticCapture(0);
     pixy = Pixy2.createInstance(LinkType.SPI);
     pixy.init();
 	hight = pixy.getFrameHeight();

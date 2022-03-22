@@ -22,7 +22,7 @@ public class Shooter extends SubsystemBase {
 
   public Shooter() {
     shooterInit();
-    shooter.setAngle(72);
+    shooter.setAngle(102);
     //shooter.set
   }
 
@@ -32,20 +32,22 @@ public class Shooter extends SubsystemBase {
   }
 
   public void goToPos(int pos){
-    if(pos == 1){
-      shooter.setAngle(0);
-    }else if(pos == 2){
-      shooter.setAngle(72);
+    if(pos == 0){
+      shooter.setAngle(35);
+    }else if(pos == 1){
+      shooter.setAngle(102);
     }
   }
 
   
 
-  public void getPosOnDash(){
-    if(Robot.oi.getControllerButtonState(Constants.XBoxButtonA)){
-      shooter.setAngle(0);
+  public void depositCargo(){
+    if(Robot.oi.getControllerButtonStateOp(Constants.XBoxButtonB)){
+      //Robot.conveyor.setConyorType(2);
+      //Robot.conveyor.cycleCargo();
+      shooter.setAngle(35);
     }else{
-      shooter.setAngle(72);
+      shooter.setAngle(102);
     }
     //SmartDashboard.putNumber("Angle of Servo", shooter.getAngle());
     //SmartDashboard.putNumber("Postition of Servo", shooter.getPosition());
