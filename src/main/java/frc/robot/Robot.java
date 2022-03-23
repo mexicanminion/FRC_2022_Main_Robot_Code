@@ -14,6 +14,7 @@ import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.Winch;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -30,6 +31,7 @@ public class Robot extends TimedRobot {
   public static Vision vision;
   public static Intake intake;
   public static Shooter shooter;
+  //public static Winch winch;
   public static Conveyor conveyor;
 
   /**

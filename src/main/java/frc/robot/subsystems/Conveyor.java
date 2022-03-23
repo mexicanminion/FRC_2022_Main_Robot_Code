@@ -31,6 +31,7 @@ public class Conveyor extends SubsystemBase {
 
   double bottomValue;
   double topValue;
+  double conveyorValue;
 
   conveyorTypes cType; 
 
@@ -61,6 +62,7 @@ public class Conveyor extends SubsystemBase {
 
   public Conveyor() {
     conveyorInit();
+    SmartDashboard.putString("Conveyor Status: ", "stopped");
   }
 
   @Override
@@ -71,28 +73,29 @@ public class Conveyor extends SubsystemBase {
   public void updateUltrasonics(){
     bottomValue = bottom.get();
     topValue = top.get();
+    conveyorValue = ultrasonic.getRangeMM();
+
     if(topValue <= 130){
       SmartDashboard.putBoolean("Ball in Shooter? ", true);
     }else{
       SmartDashboard.putBoolean("Ball in Shooter? ", false);
     }
 
-    if(bottomValue <= 130){
-      SmartDashboard.putBoolean("Ball in Conveyor? ", true);
-    }else{
-      SmartDashboard.putBoolean("Ball in Conveyor? ", false);
-    }
-
-    /*if(ultrasonic.getRangeMM() <= 500){
+    /*if(bottomValue <= 130){
       SmartDashboard.putBoolean("Ball in Conveyor? ", true);
     }else{
       SmartDashboard.putBoolean("Ball in Conveyor? ", false);
     }*/
 
-    SmartDashboard.putNumber("Ultarsonic test", ultrasonic.getRangeMM());
+    if(conveyorValue <= 500){
+      SmartDashboard.putBoolean("Ball in Conveyor? ", true);
+    }else{
+      SmartDashboard.putBoolean("Ball in Conveyor? ", false);
+    }
 
-
-    SmartDashboard.putNumber("Ultarsonic bottom", bottomValue);
+    //SmartDashboard.putString("Conveyor Status: ", "stopped");
+    SmartDashboard.putNumber("Ultarsonic Conveyor", conveyorValue);
+    //SmartDashboard.putNumber("Ultarsonic bottom", bottomValue);
     SmartDashboard.putNumber("Ultarsonic top", topValue);
   }
 
@@ -119,10 +122,17 @@ public class Conveyor extends SubsystemBase {
     switch(cType){
       case loadingCargo:
         SmartDashboard.putString("Conveyor Status: ", "intaking");
-        if(topValue <= 130  && bottomValue <= 170){ //if shooter and conveyor have cargo 
+        if(topValue <= 130  && conveyorValue <= 500){ //if shooter and conveyor have cargo 
           ballStop();
+          cType = conveyorTypes.lockCargo;
         }else{
           ballIn();
+        }
+        break;
+      case lockCargo:
+        SmartDashboard.putString("Conveyor Status: ", "locked");
+        if(!(topValue <= 130)){
+          cType = conveyorTypes.loadingCargo;
         }
         break;
       case shootingCargo:
@@ -184,6 +194,7 @@ public class Conveyor extends SubsystemBase {
 
   enum conveyorTypes{
     loadingCargo,
+    lockCargo,
     shootingCargo
   }
 }
