@@ -31,7 +31,7 @@ public class Robot extends TimedRobot {
   public static Vision vision;
   public static Intake intake;
   public static Shooter shooter;
-  //public static Winch winch;
+  public static Winch winch;
   public static Conveyor conveyor;
 
   /**
@@ -48,6 +48,7 @@ public class Robot extends TimedRobot {
     intake = new Intake();
     driveBase = new DriveBase();
     shooter = new Shooter();
+    winch = new Winch();
     conveyor = new Conveyor();
   }
 
@@ -122,10 +123,11 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    //driveBase.updateDriveBase();//DRIVER joysticks
+    driveBase.updateDriveBase();//DRIVER joysticks
     intake.teleIntake();//OP a to intake
     shooter.depositCargo();//OP b to shoot
     conveyor.updateUltrasonics();
+    winch.winchUp();
   }
 
   @Override

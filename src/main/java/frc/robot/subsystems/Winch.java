@@ -6,21 +6,24 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
 
 public class Winch extends SubsystemBase {
   /** Creates a new Winch. */
-  Spark winch;
+  CANSparkMax winch;
 
   /**
    * called once to set up winch
    */
   private void initWinch(){
-    winch = new Spark(Constants.CANWinchMotor);//VictorSPX firmware updated
+    winch = new CANSparkMax(Constants.CANWinchMotor, MotorType.kBrushless);
   }
 
   /**
@@ -41,10 +44,14 @@ public class Winch extends SubsystemBase {
    * HOLD Dpad UP - ACTIVATE
    */
   public void winchUp(){
-    if(Robot.oi.getPOVOp() == 0){
-      winch.set(-.5);
+    if(Robot.oi.getControllerButtonStateOp(Constants.XBoxButtonTriggerLeft) && Robot.oi.getPOVOp() == 0){
+      winch.set(-1);
+      SmartDashboard.putBoolean("Winch on?", true);
+    }else if(Robot.oi.getPOVOp() == 0){
+      winch.set(1);
     }else{
       winch.set(0);
+      SmartDashboard.putBoolean("Winch on?", false);
     }
   }
 
