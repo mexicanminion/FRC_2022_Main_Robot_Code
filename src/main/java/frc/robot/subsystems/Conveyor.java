@@ -87,7 +87,7 @@ public class Conveyor extends SubsystemBase {
       SmartDashboard.putBoolean("Ball in Conveyor? ", false);
     }*/
 
-    if(conveyorValue <= 500){
+    if(conveyorValue <= 800){
       SmartDashboard.putBoolean("Ball in Conveyor? ", true);
     }else{
       SmartDashboard.putBoolean("Ball in Conveyor? ", false);
@@ -122,7 +122,7 @@ public class Conveyor extends SubsystemBase {
     switch(cType){
       case loadingCargo:
         SmartDashboard.putString("Conveyor Status: ", "intaking");
-        if(topValue <= 130  && conveyorValue <= 500){ //if shooter and conveyor have cargo 
+        if(topValue <= 130  && conveyorValue <= 800){ //if shooter and conveyor have cargo 
           ballStop();
           cType = conveyorTypes.lockCargo;
         }else{

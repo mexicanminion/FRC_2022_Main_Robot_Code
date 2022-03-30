@@ -123,10 +123,10 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+    conveyor.updateUltrasonics();
     driveBase.updateDriveBase();//DRIVER joysticks
     intake.teleIntake();//OP a to intake
     shooter.depositCargo();//OP b to shoot
-    conveyor.updateUltrasonics();
     winch.winchUp();
   }
 
