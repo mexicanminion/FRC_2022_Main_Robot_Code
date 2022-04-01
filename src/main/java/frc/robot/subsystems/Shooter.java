@@ -45,7 +45,7 @@ public class Shooter extends SubsystemBase {
     if(Robot.oi.getControllerButtonStateOp(Constants.XBoxButtonB)){
       //Robot.conveyor.setConyorType(2);
       //Robot.conveyor.cycleCargo();
-      shooter.setAngle(35);
+      shooter.setAngle(16);
     }else{
       shooter.setAngle(102);
     }

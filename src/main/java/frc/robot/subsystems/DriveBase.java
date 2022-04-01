@@ -45,6 +45,7 @@ public class DriveBase extends SubsystemBase {
 
   private double leftSpeedFinal = 0;
   private double rightSpeedFinal = 0;
+  private double targetHeading = 0;
 
   private void driveBaseInit(){
 
@@ -218,11 +219,14 @@ public class DriveBase extends SubsystemBase {
 
     if(Robot.oi.getControllerButtonState(Constants.XBoxButtonTriggerRight)){
       drive((right/2) * -1, (left/2)* -1);
+    }
+    else if(Robot.oi.getControllerButtonState(Constants.XBoxButtonA)){
+      drive(.4,.4);
     }else{
       if(Robot.oi.getControllerButtonState(Constants.XBoxButtonTriggerLeft)){
         drive(left/1.33, right/1.33);
       }else{
-        drive(left/2, right/2);
+        drive(left/2.5, right/2.5);
       } 
     }
   }
@@ -306,8 +310,45 @@ public class DriveBase extends SubsystemBase {
     return fin;
   }
 
+  private void driveHeading(double speed){
+    int error;
+    double currentHeading;
+    double speedCorrection = 0;
+    double leftSpeed;
+    double rightSpeed;
+    double gain = .06;
+
+
+    if(Robot.oi.getControllerButtonState(Constants.XBoxButtonA)) {
+      //Find where we are currently pointing
+      currentHeading = Robot.imu.getAngleZ();
+
+      //Calculate how far off we are
+      error = (int)(currentHeading - targetHeading);
+
+      //Using the error calculate some correction factor
+      speedCorrection = error * gain;
+
+      //Adjust the left and right power to try and compensate for the error
+      leftSpeed = speed + speedCorrection;
+      rightSpeed = speed - speedCorrection;
+
+      //Apply the power settings to the motors
+      drive(leftSpeed,rightSpeed);
+    }else{
+      targetHeading = Robot.imu.getAngleZ();
+    }
+  }
+
+  public void driveForward(){
+    if(Robot.oi.getControllerButtonState(Constants.XBoxButtonA)){
+      drive(.4,.4);
+    }
+  }
+
   public void updateDriveBase(){
     //speedShift();
+    //driveForward();
     driveWithJoySticks(Robot.oi.getControllerStickLeft(), Robot.oi.getControllerStickRight());
   }
 

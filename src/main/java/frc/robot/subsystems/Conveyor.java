@@ -54,7 +54,7 @@ public class Conveyor extends SubsystemBase {
     topInput.setAverageBits(1);
 
     bottom = new AnalogPotentiometer(bottomInput, 180, 30);
-    top = new AnalogPotentiometer(topInput, 180, 30);
+    top = new AnalogPotentiometer(topInput, 180, 0);
 
     cType = conveyorTypes.loadingCargo;
 
@@ -115,6 +115,7 @@ public class Conveyor extends SubsystemBase {
    */
   public void ballStop(){
     right.set(ControlMode.PercentOutput, 0);
+    
   }
 
   public void cycleCargo(){
@@ -123,18 +124,20 @@ public class Conveyor extends SubsystemBase {
       case loadingCargo:
         SmartDashboard.putString("Conveyor Status: ", "intaking");
         if(topValue <= 130  && conveyorValue <= 800){ //if shooter and conveyor have cargo 
-          ballStop();
-          cType = conveyorTypes.lockCargo;
+          //ballStop();
+          ballIn();
+          //cType = conveyorTypes.lockCargo;
         }else{
           ballIn();
         }
         break;
-      case lockCargo:
+      /*case lockCargo:
         SmartDashboard.putString("Conveyor Status: ", "locked");
         if(!(topValue <= 130)){
           cType = conveyorTypes.loadingCargo;
         }
         break;
+        */
       case shootingCargo:
         if(topValue <= 130  && bottomValue <= 170){
           SmartDashboard.putString("Conveyor Status: ", "shooting");
