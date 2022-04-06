@@ -124,6 +124,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     conveyor.updateUltrasonics();
+    driveBase.updateTargetHeading();
     driveBase.updateDriveBase();//DRIVER joysticks
     intake.teleIntake();//OP a to intake
     shooter.depositCargo();//OP b to shoot

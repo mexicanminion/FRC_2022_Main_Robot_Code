@@ -43,6 +43,13 @@ public class DriveBase extends SubsystemBase {
   private boolean velFlag = false;
   private boolean speedShift = false;
 
+  private int error;
+  private double currentHeading;
+  private double speedCorrection = 0;
+  private double leftSpeed;
+  private double rightSpeed;
+  private double gain = .01;
+
   private double leftSpeedFinal = 0;
   private double rightSpeedFinal = 0;
   private double targetHeading = 0;
@@ -221,7 +228,7 @@ public class DriveBase extends SubsystemBase {
       drive((right/2) * -1, (left/2)* -1);
     }
     else if(Robot.oi.getControllerButtonState(Constants.XBoxButtonA)){
-      drive(.4,.4);
+      driveHeading(.4);
     }else{
       if(Robot.oi.getControllerButtonState(Constants.XBoxButtonTriggerLeft)){
         drive(left/1.33, right/1.33);
@@ -311,13 +318,6 @@ public class DriveBase extends SubsystemBase {
   }
 
   private void driveHeading(double speed){
-    int error;
-    double currentHeading;
-    double speedCorrection = 0;
-    double leftSpeed;
-    double rightSpeed;
-    double gain = .06;
-
 
     if(Robot.oi.getControllerButtonState(Constants.XBoxButtonA)) {
       //Find where we are currently pointing
@@ -335,14 +335,12 @@ public class DriveBase extends SubsystemBase {
 
       //Apply the power settings to the motors
       drive(leftSpeed,rightSpeed);
-    }else{
-      targetHeading = Robot.imu.getAngleZ();
     }
   }
 
-  public void driveForward(){
-    if(Robot.oi.getControllerButtonState(Constants.XBoxButtonA)){
-      drive(.4,.4);
+  public void updateTargetHeading(){
+    if(Robot.oi.getControllerButtonState(Constants.XBoxButtonA) == false){
+      targetHeading = Robot.imu.getAngleZ();
     }
   }
 
