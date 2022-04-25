@@ -33,7 +33,7 @@ public class Shooter extends SubsystemBase {
 
   public void goToPos(int pos){
     if(pos == 0){
-      shooter.setAngle(35);
+      shooter.setAngle(25);
     }else if(pos == 1){
       shooter.setAngle(102);
     }
@@ -45,7 +45,7 @@ public class Shooter extends SubsystemBase {
     if(Robot.oi.getControllerButtonStateOp(Constants.XBoxButtonB)){
       //Robot.conveyor.setConyorType(2);
       //Robot.conveyor.cycleCargo();
-      shooter.setAngle(16);
+      shooter.setAngle(25);
     }else{
       shooter.setAngle(102);
     }

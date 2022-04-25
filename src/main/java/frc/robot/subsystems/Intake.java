@@ -41,7 +41,8 @@ public class Intake extends SubsystemBase {
    * out takes balls
    */
   public void ballOut(){
-    intakeMotor.set(ControlMode.PercentOutput, -.6);
+  //intakeMotor.set(ControlMode.PercentOutput, -.6);
+  intakeMotor.set(ControlMode.PercentOutput, -.25);
     SmartDashboard.putString("Intake is ", "Running out");
   }
   

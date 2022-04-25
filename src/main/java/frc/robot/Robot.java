@@ -12,6 +12,7 @@ import frc.robot.subsystems.Accelerometer;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Winch;
@@ -33,6 +34,7 @@ public class Robot extends TimedRobot {
   public static Shooter shooter;
   public static Winch winch;
   public static Conveyor conveyor;
+  public static Lights lights;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -50,6 +52,7 @@ public class Robot extends TimedRobot {
     shooter = new Shooter();
     winch = new Winch();
     conveyor = new Conveyor();
+    lights = new Lights();
   }
 
   /**
@@ -72,6 +75,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     driveBase.parkingBrake(false);
+    lights.stationaryLight();
   }
 
   @Override
@@ -81,11 +85,12 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     SmartDashboard.putBoolean("auto done?", false);
+    lights.setMatchLight();
     driveBase.zeroEncoders();
     driveBase.parkingBrake(true);
     imu.resetPigeonYaw();
     shooter.goToPos(0);
-      for(int i = 0; i <= 3000; i++){
+      for(int i = 0; i <= 6000; i++){
         try{
           Thread.sleep(1);
         }catch(Exception ex){
@@ -118,6 +123,7 @@ public class Robot extends TimedRobot {
     }
 
     driveBase.parkingBrake(true);
+    lights.setMatchLight();
   }
 
   /** This function is called periodically during operator control. */

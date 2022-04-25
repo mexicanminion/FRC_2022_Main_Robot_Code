@@ -231,9 +231,10 @@ public class DriveBase extends SubsystemBase {
       driveHeading(.4);
     }else{
       if(Robot.oi.getControllerButtonState(Constants.XBoxButtonTriggerLeft)){
-        drive(left/1.33, right/1.33);
+        //drive(left * 0.8, right * 0.8);
+        drive(left, right);
       }else{
-        drive(left/2.5, right/2.5);
+        drive(left * 0.65, right * 0.65);
       } 
     }
   }
